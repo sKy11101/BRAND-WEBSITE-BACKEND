@@ -7,7 +7,10 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", (req, res)=> {
-    res.send("WELCOME TO THE HOME PAGE OF THE WEBSITE")
+    res.json({
+        message: "Hello from Node.js!",
+        users: ["Samarth", "John", "David"]
+    });
 })
 
 app.use("/api/users", userRoutes);
