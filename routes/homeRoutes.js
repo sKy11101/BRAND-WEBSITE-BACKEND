@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { getHomeUsers } = require("../controllers/homeController");
 
+router.post("/", (req, res) => {
+    console.log("Received data:", req.body);
+});
+
 router.get("/", getHomeUsers);
 router.get("/about", (req, res)=>{
     res.send("Welcome to the about page of the website")
