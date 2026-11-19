@@ -1,31 +1,12 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+import { sendOTP } from "./controllers/otpController.js";
+import { verifyAndSubmit } from "./controllers/surveyController.js";
 const app = express();
-const cors = require("cors");
-const userRoutes = require("./routes/userRoutes");
-const homeRoutes = require("./routes/homeRoutes");
-
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173"
+}));
 app.use(express.json());
-
-app.use("/", homeRoutes)
-app.use("/api/otp/verify/", (req, res) => {
-    res.json({
-        "message": "Message: The route http://localhost:3000/api/otp/verify was hit"
-    })
-    console.log("Console: The route http://localhost:3000/api/otp/verify was hit");
-})
-app.use("/api/otp/send/", (req, res)=>{
-    res.json({
-        "message": "Message: The route http://localhost:3000/otp/send/ was hit"
-    })
-    console.log("Console: The route http://localhost:3000/otp/send/ was hit")
-})
-app.use("/api/forms/submit/", (req, res)=>{
-    res.json({
-        "message": "Message: The route http://localhost:3000/api/forms/submit was hit"
-    })
-    console.log("Console: The route http://localhost:3000/api/forms/submit was hit")
-})
-app.use("/api/users", userRoutes);
-
-module.exports = app;
+app.post("/api/otp/send", sendOTP);
+app.post("/api/forms/verify-and-submit", verifyAndSubmit);
+export default app;
