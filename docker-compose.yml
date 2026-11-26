@@ -1,0 +1,27 @@
+
+services:
+
+  backend:
+    build: .
+    container_name: brand-backend
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    expose:
+      - "3000"
+
+  nginx:
+    image: nginx:alpine
+    container_name: brand-nginx
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+    depends_on:
+      - backend
