@@ -1,6 +1,7 @@
 import { verifyOTP } from "../services/otpService.js";
 import { verifyAndSubmitSchema } from "../validators/surveySchema.js";
-
+import { saveSurveyCloud } from "../services/surveyService.js";
+ 
 export function verifyAndSubmit(req, res) {
     const parsed = verifyAndSubmitSchema.safeParse(req.body);
 
@@ -22,7 +23,9 @@ export function verifyAndSubmit(req, res) {
         });
     }
 
-    // No database: survey is validated, not persisted.
+    //Saving the data to the cloud.
+    saveSurveyCloud(parsed.data);
+
     return res.status(200).json({
         success: true,
         message: "OTP verified and survey accepted (not saved)"
